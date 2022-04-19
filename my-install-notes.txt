@@ -1,0 +1,99 @@
+# MyArchLinux-lxqt
+# systemd bootloader, lxqt
+# https://github.com/johnghoward/MyArchLinux-lxqt
+# https://www.youtube.com/watch?v=
+
+pacman -Syy
+
+lsblk
+
+gdisk /dev/sda
+
+n
+-
+-
++250M
+ef00
+
+n
+-
+-
++512M
+8200
+
+n
+-
+-
++64G
+8300
+
+n
+-
+-
+-
+8300
+
+w
+Y
+
+lsblk
+
+mkfs.vfat /dev/sda1
+
+mkswap /dev/sda2
+
+swapon /dev/sda2
+
+mkfs.ext4 /dev/sda3 -L archlinux
+
+mkfs.ext4 /dev/sda4
+
+mount /dev/sda3 /mnt
+
+mkdir /mnt/{boot,home}
+
+mount /dev/sda1 /mnt/boot
+
+mount /dev/sda4 /mnt/home
+
+lsblk
+
+pacstrap /mnt base base-devel linux linux-firmware git vim nano intel-ucode
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
+arch-chroot /mnt
+
+git clone https://github.com/johnghoward/MyArchLinux-lxqt.git
+edit base-uefi.sh
+chmod +x base-uefi.sh
+cd ..
+./MyArchLinux-lxqt/install-base-uefi.sh
+
+./MyArchLinux-lxqt/lxqt.sh
+
+
+git clone https://aur.archlinux.org/arc-kde
+
+# install YAY
+#pacman -S git go
+sudo git clone https://aur.archlinux.org/yay.git
+sudo chown -R  archlinux:archlinux yay
+cd yay
+makepkg -si
+
+yay -Syy
+
+# install ocs-url
+yay -S ocs-url
+
+# install pacaur
+yay -S pacaur
+
+pacaur -Syyuu
+
+# Install Paru
+git clone https://aur.archlinux.org/paru-bin.git
+cd paru-bin/
+makepkg -si
+
