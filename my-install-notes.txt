@@ -85,7 +85,7 @@ makepkg -si
 yay -Syy
 
 # install ocs-url
-yay -S ocs-url
+#yay -S ocs-url
 
 # install pacaur
 yay -S pacaur
